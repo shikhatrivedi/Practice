@@ -16,6 +16,9 @@ public class CalAlpha {
 			stmt = stmt + it.next();
 		}
 		
+		
+		
+		
 		//Get the statement ready for analysis
 		String s=stmt.toLowerCase();
 		s=s.replace(" ","");
