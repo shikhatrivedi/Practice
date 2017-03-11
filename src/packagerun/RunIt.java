@@ -15,10 +15,10 @@ public class RunIt {
 		public static void main(String args[])
 		{
 			GetFile gt=new GetFile();
-			String file = gt.func();
+			String file[] = gt.func();
 
 			String output="./output.txt";		
-			try(FileReader fr=new FileReader(file); 
+			try(FileReader fr=new FileReader(file[0]); 
 				BufferedReader br = new BufferedReader(fr);
 				FileWriter fw = new FileWriter(output);	
 				BufferedWriter bw = new BufferedWriter(fw);
@@ -32,13 +32,17 @@ public class RunIt {
 				
 				// Procedure call to calculate the percentage of letters usage
 				String str="";
+				bw.write("In your chosen file "+file[1]+" :");
+				bw.newLine();
 				List<Entry<Character, Float>> list = CalAlpha.prvdPer(al);
 				for(Map.Entry<Character, Float> entry:list){
-					str="The character '"+entry.getKey()+"' occurs "+entry.getValue()+"% in the file";
+					str="The character '"+entry.getKey()+"' occurs "+entry.getValue()+"%";
 					bw.write(str);
 					bw.newLine();
 		            }
-		   }
+				System.out.println("The scanning of "+file[1]+" was successful");
+				System.out.println("Output file is created with the name 'output.txt' in your project folder");
+			}
 			catch(FileNotFoundException e)
 			{
 				System.out.println("The file to be read is not found");
