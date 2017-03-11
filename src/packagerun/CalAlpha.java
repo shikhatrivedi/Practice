@@ -1,12 +1,17 @@
 package packagerun;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
 public class CalAlpha {
-	public static void prvdPer(ArrayList<String> al)
+	public static List<Entry<Character, Float>> prvdPer(ArrayList<String> al)
 	{
 		String stmt="";
 		
@@ -15,13 +20,7 @@ public class CalAlpha {
 		{
 			stmt = stmt + it.next();
 		}
-		
-		
-		
-		
-		
-		
-		
+				
 		//Get the statement ready for analysis
 		String s=stmt.toLowerCase();
 		s=s.replace(" ","");
@@ -44,45 +43,29 @@ public class CalAlpha {
 		}
 		
 		int sum=map.values().stream().mapToInt(Number::intValue).sum();
-		int len = map.size();
-		int ar[] = new int[len];
-		int i=0;
-		String str="";
-		for (Character key: map.keySet())
-		{
-			str=map.get(key)+""+Character.getNumericValue(key);
-			ar[i]=Integer.parseInt(str);
-			i++;
-		}
 		
-		//Sort the values
-		Arrays.sort(ar);
-		String str1="",str2="";
-		float srt[]= new float[4];
-		int charac;
-		char chtr[]=new char[4];
+		HashMap<Character, Float> map1 = new HashMap<>();
 		
-		for(int a:ar)
-		{
-			System.out.println(a);
-		}
-		
-		for (int z=len-1,y=0;z>len-5&&y<=3;z--,y++)
-		{
-			str1=Integer.toString(ar[z]);
-			len=str1.length();
-		    //Calculate percentage
-		    srt[y]=Integer.parseInt(str1.substring(0,len-2));
-			srt[y]=(srt[y]/sum)*100;
-			System.out.println(srt[y]);
-			
-			//Retrieve the character
-			charac=Integer.parseInt(str1.substring(len-2,len));
-			str2 = Integer.toHexString(charac);
-			chtr[y]=str2.charAt(0);
-			System.out.println(chtr[y]);
-			
-		}
-		
+		Set<Entry<Character, Integer>> set = map.entrySet();
+        List<Entry<Character, Integer>> list = new ArrayList<Entry<Character, Integer>>(set);
+        Collections.sort( list, new Comparator<Map.Entry<Character, Integer>>()
+        {
+            public int compare( Map.Entry<Character, Integer> o1, Map.Entry<Character, Integer> o2 )
+            {
+                return (o2.getValue()).compareTo( o1.getValue() );
+            }
+        } );
+        int i=1;
+        
+        for(Map.Entry<Character, Integer> entry:list){
+			if(i<5){
+			map1.put(entry.getKey(),((float)entry.getValue()/sum)*100);
+		    i++;
+			}
+        }
+        Set<Entry<Character, Float>> set1 = map1.entrySet();
+        List<Entry<Character, Float>> list1 = new ArrayList<Entry<Character, Float>>(set1);
+        
+        return list1;
 	}
 }
